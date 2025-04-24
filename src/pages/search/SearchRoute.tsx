@@ -1,30 +1,45 @@
 import { useState } from 'react';
-import { Button, ButtonContainer, Container, InnerContainer, Input, Title } from './SearchRouteStyle';
+import './SearchRoute.css';
 import { useNavigate } from 'react-router';
 
 export default function SearchRoute() {
     const [inputValue, setInputValue] = useState('');
+    const [version, setVersion] = useState('Tailwind');
     const navigate = useNavigate(); 
-
     function checkContent () {
-        console.log(`/users/${inputValue}`)
         if (inputValue.trim().length == 0) {
             return;
         } else {
-            return navigate(`/users/${inputValue}`);
+            return navigate(`/${version}/${inputValue}`);
         }
     }
     
-    return <Container>
-        <InnerContainer>
-            <Title>Digite o nome de um usuário para pesquisar por ele no github</Title>
-            <ButtonContainer>
-                <Input 
+    return <div className='container'>
+        <div className='inner-container'>
+            <div className='title'>Digite o nome de um usuário para pesquisar por ele no github</div>
+            <div className='button-container'>
+                <input 
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                 />
-                <Button onClick={checkContent}>Pesquisar</Button>
-            </ButtonContainer>
-        </InnerContainer>
-    </Container>;
+                <button 
+                    className='go-to-page'
+                    disabled={ inputValue.trim().length == 0 }
+                    onClick={checkContent}>
+                    Pesquisar
+                </button>
+            </div>
+            <div className='version-container'>
+                <button onClick={() => setVersion('Tailwind')}>
+                    Tailwind CSS
+                </button>
+                <button onClick={() => setVersion('Styled')}>
+                    Styled
+                </button>
+                <div>
+                    Versão { version } selecionada.
+                </div>
+            </div>
+        </div>
+    </div>;
 }
